@@ -6,21 +6,23 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 def test_google_loads():
     chrome_options = Options()
-    chrome_options.add_argument("--no-sandbox")  # Helps in CI environments
-    chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Prevents memory issues
-    chrome_options.add_argument("--user-data-dir=/tmp/chrome-user-data")  # Set a unique user-data directory
+    chrome_options.add_argument("--headless=new")  # Run in headless mode (needed for GitHub Actions)
+    chrome_options.add_argument("--no-sandbox")  # Bypass OS-level security restrictions
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Prevent shared memory issues
+    chrome_options.add_argument("--remote-debugging-port=9222")  # Enable remote debugging
+    chrome_options.add_argument("--disable-gpu")  # Disable GPU for better stability
+    chrome_options.add_argument("--window-size=1920,1080")  # Set fixed window size
 
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
-    
+
     driver.get("https://www.google.com")
 
-    time.sleep(2)  # Give time for the page to load
-    assert "Google" in driver.title  # Validate the page title
-    
+    time.sleep(3)  # Wait for Google to load
+    assert "Google" in driver.title  # Validate the title
+    print("Google loaded successfully!")
+
     driver.quit()
 
 if __name__ == "__main__":
     test_google_loads()
-    print("Google loaded successfully!")
