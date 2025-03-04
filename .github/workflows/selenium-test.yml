@@ -31,11 +31,10 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y google-chrome-stable
-        CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
-        curl -sS -o chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip
-        sudo mv chromedriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/chromedriver
+        echo "Chrome version:"
+        google-chrome --version
+        echo "Chromedriver version:"
+        chromedriver --version
 
     - name: Run Selenium Test
       run: python google_load_test_selenium.py
