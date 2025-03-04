@@ -1,3 +1,4 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -7,6 +8,7 @@ def test_google_loads():
     driver = webdriver.Chrome(service=service)
     driver.get("https://www.google.com")
 
+    time.sleep(2) #Wait for page to load
     assert "Google" in driver.title  # Check if "Google" is in the page title
     driver.quit()
 
